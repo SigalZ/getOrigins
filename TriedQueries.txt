@@ -1,0 +1,18 @@
+$origins = Origin::query()
+    ->whereHas('greenBeans.coffees', fn($q) => $q->where('active', 1))
+	->with('countries','greenBeans.coffees')
+	->get();
+
+$origins = Origin::query()
+    ->whereRelation('greenBeans.coffees', 'active', 1)
+	->with('countries','greenBeans.coffees')
+	->get();
+
+$origins = Origin::whereHas('countries.greenBeans.coffees', fn($q) => $q->where('coffees.active', 1))
+        ->with('countries.greenBeans.coffees')
+        ->get();
+
+$origins = Origin::query()
+    ->whereRelation('greenBeans.coffees', 'active', 1)
+	->with('greenBeans.coffees')
+	->get();
